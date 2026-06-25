@@ -8,10 +8,11 @@ Built with Vue 3, Vite, and Tailwind.
 
 ```bash
 npm install
+cp .env.example .env.local   # set VITE_API_BASE to your Rails API URL
 npm run dev
 ```
 
-Opens at `http://localhost:5173`. It expects the Rails API on `http://127.0.0.1:3000` — start the backend first.
+Opens at `http://localhost:5173`. `VITE_API_BASE` defaults to `http://127.0.0.1:3000` in `.env.example` — start the backend first.
 
 ## What's in here
 

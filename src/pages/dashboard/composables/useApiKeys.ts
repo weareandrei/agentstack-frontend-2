@@ -1,6 +1,6 @@
 import { computed, onMounted, ref } from 'vue'
 import ALGORITHM from '@/lib/algorithm'
-import { API_BASE } from '@/lib/api'
+import { DOCS_API_BASE } from '@/lib/api'
 
 export interface AccountApiKey {
   api_key_prefix: string | null
@@ -29,7 +29,7 @@ export const useApiKeys = () => {
     const key = fullApiKey.value || 'YOUR_AGENT_API_KEY'
     return `Use AgentStack to record and read structured logs.
 
-API base: ${API_BASE}
+API base: ${DOCS_API_BASE}
 API key: ${key}
 Check out API documentation: ${docsUrl.value}`
   })

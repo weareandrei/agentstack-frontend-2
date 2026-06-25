@@ -8,7 +8,7 @@ import {
   CardContent,
 } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { API_BASE } from '@/lib/api'
+import { DOCS_API_BASE } from '@/lib/api'
 
 const inlineCode = 'rounded bg-muted px-1.5 py-px font-mono text-[0.82rem]'
 const crossLink = 'font-medium text-foreground underline underline-offset-2 hover:text-foreground/80'
@@ -51,19 +51,19 @@ const jsonLd = {
     {
       '@type': 'SearchAction',
       name: 'List projects',
-      target: { '@type': 'EntryPoint', urlTemplate: `${API_BASE}/projects`, httpMethod: 'GET' },
+      target: { '@type': 'EntryPoint', urlTemplate: `${DOCS_API_BASE}/projects`, httpMethod: 'GET' },
     },
     {
       '@type': 'CreateAction',
       name: 'Create a project',
-      target: { '@type': 'EntryPoint', urlTemplate: `${API_BASE}/projects`, httpMethod: 'POST' },
+      target: { '@type': 'EntryPoint', urlTemplate: `${DOCS_API_BASE}/projects`, httpMethod: 'POST' },
     },
     {
       '@type': 'ConsumeAction',
       name: 'Ingest a log',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${API_BASE}/ingest`,
+        urlTemplate: `${DOCS_API_BASE}/ingest`,
         httpMethod: 'POST',
         contentType: 'application/json',
       },
@@ -73,7 +73,7 @@ const jsonLd = {
       name: 'Read logs',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${API_BASE}/logs?limit={limit}&offset={offset}`,
+        urlTemplate: `${DOCS_API_BASE}/logs?limit={limit}&offset={offset}`,
         httpMethod: 'GET',
       },
     },
@@ -91,12 +91,12 @@ onUnmounted(() => {
   if (scriptEl && scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl)
 })
 
-const agentExample = `curl -X POST ${API_BASE}/ingest \\
+const agentExample = `curl -X POST ${DOCS_API_BASE}/ingest \\
   -H "Authorization: Bearer agnt_YOUR_PROJECT_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{ "level": "info", "message": "Agent run started" }'`
 
-const projectsCurl = `curl "${API_BASE}/projects" \\
+const projectsCurl = `curl "${DOCS_API_BASE}/projects" \\
   -H "Authorization: Bearer agnt_acct_YOUR_ACCOUNT_KEY"`
 
 const projectsResponse = `[
@@ -109,7 +109,7 @@ const projectsResponse = `[
   }
 ]`
 
-const createProjectCurl = `curl -X POST ${API_BASE}/projects \\
+const createProjectCurl = `curl -X POST ${DOCS_API_BASE}/projects \\
   -H "Authorization: Bearer agnt_acct_YOUR_ACCOUNT_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{ "name": "my-agent" }'`
@@ -122,14 +122,14 @@ const createProjectResponse = `{
   "token": "agnt_072c50e6cc951fd44bd0dd2d5325002f1b10ed4360b4979b"
 }`
 
-const writeCurl = `curl -X POST ${API_BASE}/ingest \\
+const writeCurl = `curl -X POST ${DOCS_API_BASE}/ingest \\
   -H "Authorization: Bearer agnt_YOUR_PROJECT_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{ "level": "error", "message": "Payment failed", "metadata": { "order_id": 99 } }'`
 
 const writeResponse = `{ "received": 1 }`
 
-const readCurl = `curl "${API_BASE}/logs?limit=15&offset=0" \\
+const readCurl = `curl "${DOCS_API_BASE}/logs?limit=15&offset=0" \\
   -H "Authorization: Bearer agnt_YOUR_PROJECT_TOKEN"`
 
 const readResponse = `{
@@ -319,7 +319,7 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
           <div class="flex items-center gap-2.5">
             <span class="rounded-md bg-blue-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">GET</span>
-            <code class="font-mono text-sm">{{ API_BASE }}/projects</code>
+            <code class="font-mono text-sm">{{ DOCS_API_BASE }}/projects</code>
           </div>
           <p>
             List every project in the account, newest first. Each project includes
@@ -350,7 +350,7 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
           <div class="flex items-center gap-2.5">
             <span class="rounded-md bg-green-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">POST</span>
-            <code class="font-mono text-sm">{{ API_BASE }}/projects</code>
+            <code class="font-mono text-sm">{{ DOCS_API_BASE }}/projects</code>
           </div>
           <p>Create a new project. The response includes the full project API token — shown once.</p>
           <div class="rounded-lg border border-border bg-background/60 p-3 text-[0.82rem]">
@@ -394,7 +394,7 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
           <div class="flex items-center gap-2.5">
             <span class="rounded-md bg-green-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">POST</span>
-            <code class="font-mono text-sm">{{ API_BASE }}/ingest</code>
+            <code class="font-mono text-sm">{{ DOCS_API_BASE }}/ingest</code>
           </div>
           <p>Create a single log event in the project the API key belongs to.</p>
           <div class="rounded-lg border border-border bg-background/60 p-3 text-[0.82rem]">
@@ -463,7 +463,7 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
           <div class="flex items-center gap-2.5">
             <span class="rounded-md bg-blue-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">GET</span>
-            <code class="font-mono text-sm">{{ API_BASE }}/logs</code>
+            <code class="font-mono text-sm">{{ DOCS_API_BASE }}/logs</code>
           </div>
           <p>Read recent logs from the API key's project, newest first.</p>
           <div class="rounded-lg border border-border bg-background/60 p-3 text-[0.82rem]">
