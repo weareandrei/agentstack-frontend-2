@@ -130,6 +130,16 @@ const writeCurl = `curl -X POST ${API_BASE}/ingest \\
 
 const writeResponse = `{ "received": 1 }`
 
+const writeBatchCurl = `curl -X POST ${API_BASE}/ingest \\
+  -H "Authorization: Bearer agnt_YOUR_PROJECT_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '[
+  { "level": "info", "message": "Agent run started" },
+  { "level": "error", "message": "Payment failed", "metadata": { "order_id": 99 } }
+]'`
+
+const writeBatchResponse = `{ "received": 2 }`
+
 const readCurl = `curl "${API_BASE}/logs?limit=15&offset=0" \\
   -H "Authorization: Bearer agnt_YOUR_PROJECT_TOKEN"`
 
@@ -406,7 +416,10 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
             <span class="rounded-md bg-green-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">POST</span>
             <code class="font-mono text-sm">{{ API_BASE }}/ingest</code>
           </div>
-          <p>Create a single log event in the project the API key belongs to.</p>
+          <p>
+            Create one or more log events in the project the API key belongs to. Send a single log
+            object or an array of log objects (up to 1,000 per request).
+          </p>
           <div class="rounded-lg border border-border bg-background/60 p-3 text-[0.82rem]">
             <strong>Authentication:</strong> project API key
             (<code :class="inlineCode">agnt_…</code>).
@@ -452,12 +465,18 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
               </tr>
             </tbody>
           </table>
-          <h3 class="text-[0.95rem] font-semibold">Example request</h3>
+          <h3 class="text-[0.95rem] font-semibold">Example request — single log</h3>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ writeCurl }}</code></pre>
+          <h3 class="text-[0.95rem] font-semibold">Example request — batch</h3>
+          <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ writeBatchCurl }}</code></pre>
           <h3 class="text-[0.95rem] font-semibold">
             Response — <span class="font-mono text-xs font-bold text-green-400">202 Accepted</span>
           </h3>
+          <p class="text-muted-foreground">
+            <code :class="inlineCode">received</code> is the number of log entries accepted.
+          </p>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ writeResponse }}</code></pre>
+          <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ writeBatchResponse }}</code></pre>
           <p class="text-muted-foreground">
             SDK:
             <a href="#sdk-log" :class="crossLink">log()</a>
