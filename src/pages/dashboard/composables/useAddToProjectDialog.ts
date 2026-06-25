@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { DOCS_API_BASE } from '@/lib/api'
+import { API_BASE } from '@/lib/api'
 import { useProjects } from './useProjects'
 
 const isRotatingToken = ref(false)
@@ -24,7 +24,7 @@ export const useAddToProjectDialog = () => {
 
   const ingestSnippet = computed(() => {
     const token = fullProjectToken.value || 'YOUR_PROJECT_TOKEN'
-    return `curl -X POST ${DOCS_API_BASE}/ingest \\
+    return `curl -X POST ${API_BASE}/ingest \\
   -H "Authorization: Bearer ${token}" \\
   -H "Content-Type: application/json" \\
   -d '{ "level": "info", "message": "Hello from my app" }'`

@@ -7,15 +7,6 @@ if (!apiBase) {
 
 export const API_BASE = apiBase.replace(/\/$/, '')
 
-const docsApiBase = import.meta.env.VITE_DOCS_API_BASE
-if (!docsApiBase) {
-  throw new Error(
-    'VITE_DOCS_API_BASE is not set.',
-  )
-}
-
-export const DOCS_API_BASE = docsApiBase.replace(/\/$/, '')
-
 const NO_REFRESH_PATHS = ['/account/login', '/account/create', '/account/refresh']
 
 let refreshPromise: Promise<boolean> | null = null

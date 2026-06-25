@@ -3,9 +3,9 @@ import router from '@/router.ts'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Zap, Code2, Eye } from '@lucide/vue'
 import HomeFeature from './HomeFeature.vue'
-import { DOCS_API_BASE } from '@/lib/api'
+import { API_BASE } from '@/lib/api'
 
-const snippet = `curl -X POST ${DOCS_API_BASE}/ingest \\
+const snippet = `curl -X POST ${API_BASE}/ingest \\
   -H "Authorization: Bearer agnt_••••" \\
   -d '{ "level": "info", "message": "Agent run started" }'`
 </script>
