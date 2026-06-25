@@ -20,6 +20,7 @@ interface SidebarItem {
   id: string
   label: string
   method?: 'GET' | 'POST'
+  kind?: 'method' | 'class'
 }
 
 const curlItems: SidebarItem[] = [
@@ -31,12 +32,12 @@ const curlItems: SidebarItem[] = [
 
 const sdkItems: SidebarItem[] = [
   { id: 'sdk-install', label: 'Install' },
-  { id: 'sdk-agent-stack', label: 'Get started' },
-  { id: 'sdk-log', label: 'Write logs' },
-  { id: 'sdk-get-logs', label: 'getLogs()' },
-  { id: 'sdk-agent-stack-account', label: 'AgentStackAccount' },
-  { id: 'sdk-list-projects', label: 'listProjects()' },
-  { id: 'sdk-create-project', label: 'createProject()' },
+  { id: 'sdk-agent-stack', label: 'AgentStack', kind: 'class' },
+  { id: 'sdk-log', label: 'log()', kind: 'method' },
+  { id: 'sdk-get-logs', label: 'getLogs()', kind: 'method' },
+  { id: 'sdk-agent-stack-account', label: 'AgentStackAccount', kind: 'class' },
+  { id: 'sdk-list-projects', label: 'listProjects()', kind: 'method' },
+  { id: 'sdk-create-project', label: 'createProject()', kind: 'method' },
 ]
 
 const jsonLd = {
@@ -215,6 +216,15 @@ const sdkCreateProject = `const { token } = await account.createProject('my-agen
         <ul class="flex flex-col">
           <li v-for="item in sdkItems" :key="item.id">
             <a :href="`#${item.id}`" :class="navLink">
+              <span
+                v-if="item.kind"
+                :class="cn(
+                  'inline-flex shrink-0 justify-center rounded px-1 py-px text-[0.55rem] font-bold uppercase tracking-wide text-white',
+                  item.kind === 'class' ? 'bg-orange-600' : 'bg-purple-600',
+                )"
+              >
+                {{ item.kind }}
+              </span>
               <span class="font-mono text-[0.82rem] text-foreground/90">{{ item.label }}</span>
             </a>
           </li>
@@ -450,7 +460,7 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ writeResponse }}</code></pre>
           <p class="text-muted-foreground">
             SDK:
-            <a href="#sdk-log" :class="crossLink">Write logs</a>
+            <a href="#sdk-log" :class="crossLink">log()</a>
             (<code :class="inlineCode">client.log.info</code>, etc.)
           </p>
         </CardContent>
@@ -529,6 +539,10 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
           <CardTitle>Get started</CardTitle>
         </CardHeader>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
+          <div class="flex items-center gap-2.5">
+            <span class="rounded-md bg-orange-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">class</span>
+            <code class="font-mono text-sm">AgentStack</code>
+          </div>
           <p>
             Project-level client. Pass your project API token in the constructor — the SDK does not
             read credentials from environment variables.
@@ -539,9 +553,13 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
 
       <Card id="sdk-log" class="scroll-mt-24">
         <CardHeader>
-          <CardTitle>Write logs</CardTitle>
+          <CardTitle>log()</CardTitle>
         </CardHeader>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
+          <div class="flex items-center gap-2.5">
+            <span class="rounded-md bg-purple-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">method</span>
+            <code class="font-mono text-sm">client.log</code>
+          </div>
           <p>
             Send one log per call via <code :class="inlineCode">client.log</code>. Optional
             <code :class="inlineCode">metadata</code> object on every level.
@@ -559,6 +577,10 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
           <CardTitle>getLogs()</CardTitle>
         </CardHeader>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
+          <div class="flex items-center gap-2.5">
+            <span class="rounded-md bg-purple-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">method</span>
+            <code class="font-mono text-sm">client.getLogs()</code>
+          </div>
           <p>Read logs with optional <code :class="inlineCode">limit</code>, <code :class="inlineCode">offset</code>, <code :class="inlineCode">from</code>, and <code :class="inlineCode">to</code> filters.</p>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ sdkGetLogs }}</code></pre>
           <p class="text-muted-foreground">
@@ -573,6 +595,10 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
           <CardTitle>AgentStackAccount</CardTitle>
         </CardHeader>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
+          <div class="flex items-center gap-2.5">
+            <span class="rounded-md bg-orange-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">class</span>
+            <code class="font-mono text-sm">AgentStackAccount</code>
+          </div>
           <p>Account-level client for project discovery and creation. Requires an account API key.</p>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ sdkAccount }}</code></pre>
         </CardContent>
@@ -583,6 +609,10 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
           <CardTitle>listProjects()</CardTitle>
         </CardHeader>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
+          <div class="flex items-center gap-2.5">
+            <span class="rounded-md bg-purple-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">method</span>
+            <code class="font-mono text-sm">account.listProjects()</code>
+          </div>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ sdkListProjects }}</code></pre>
           <p class="text-muted-foreground">
             HTTP:
@@ -596,6 +626,10 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
           <CardTitle>createProject()</CardTitle>
         </CardHeader>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
+          <div class="flex items-center gap-2.5">
+            <span class="rounded-md bg-purple-600 px-2 py-0.5 text-[0.7rem] font-bold tracking-wide text-white">method</span>
+            <code class="font-mono text-sm">account.createProject()</code>
+          </div>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ sdkCreateProject }}</code></pre>
           <p class="text-muted-foreground">
             HTTP:
