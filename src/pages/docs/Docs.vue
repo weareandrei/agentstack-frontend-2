@@ -158,7 +158,11 @@ const readResponse = `{
   "offset": 0
 }`
 
-const sdkInstall = `npm install git+https://github.com/your-org/agentstack.git#main:agentstack-sdk`
+const SDK_REPO_URL = 'https://github.com/weareandrei/agentstack-sdk'
+
+const sdkInstall = `npm install git+${SDK_REPO_URL}.git`
+
+const sdkClone = `gh repo clone weareandrei/agentstack-sdk`
 
 const sdkAgentStack = `import { AgentStack } from 'agentstack-sdk'
 
@@ -546,10 +550,16 @@ Authorization: Bearer agnt_YOUR_PROJECT_TOKEN      # project-level</code></pre>
         </CardHeader>
         <CardContent class="flex flex-col gap-3 text-sm leading-normal">
           <p>
-            Install <code :class="inlineCode">agentstack-sdk</code> directly from the repo — no npm
-            registry required.
+            Install <code :class="inlineCode">agentstack-sdk</code> from
+            <a :href="SDK_REPO_URL" :class="crossLink" target="_blank" rel="noopener noreferrer">
+              github.com/weareandrei/agentstack-sdk
+            </a>
+            — no npm registry required.
           </p>
+          <h3 class="text-[0.95rem] font-semibold">npm</h3>
           <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ sdkInstall }}</code></pre>
+          <h3 class="text-[0.95rem] font-semibold">GitHub CLI</h3>
+          <pre class="overflow-x-auto rounded-lg border border-border bg-background p-3"><code class="font-mono text-[0.82rem]">{{ sdkClone }}</code></pre>
         </CardContent>
       </Card>
 
